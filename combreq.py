@@ -151,7 +151,7 @@ def combine_requirements(
                 elif op in [">=", ">"]:
                     op_range[op] = [versions[-1], math.inf]
                 elif op == "==" and len(set(versions)) > 1:
-                    raise DependencyConflictError
+                    raise DependencyConflictError(dependency_conflict_error_msg(pkg, versions))
                 elif op == "==":
                     op_range[op] = [versions[0], versions[0]]
                 else:
