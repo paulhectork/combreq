@@ -136,6 +136,8 @@ def combine_requirements(
         elif len(versions) == 1:
             versions = versions  # useless but whatever
 
+        # there are several versions specifications for the same package. find a version specification that satistifes all individual specs. 
+        # this is done by computing, for each version spec, a range of [min, max] allowed versions, and then computing the intersection of all those ranges. if no valid intersection is found, there is a conflict
         else:
             # dict of { operator: [sorted list of versions for that operator] }
             versions_by_op = {
