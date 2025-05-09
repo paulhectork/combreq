@@ -21,7 +21,10 @@ feed `combreq` pipe-separated paths to requirements files and see the magic in a
 
 ```bash
 # a small example
-python3.10 combine_requirements.py -i "./LinePred/requirements.txt|./DTLR/requirements.txt" -o requirements.txt
+python3.10 combreq.py \
+    -i "./LinePred/requirements.txt|./DTLR/requirements.txt" \ 
+    -o requirements.txt \
+    -w
 ```
 
 ```
