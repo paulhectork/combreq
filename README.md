@@ -1,10 +1,10 @@
-# COMBREQ
+# FUSER
 
-`combreq` is a small CLI to combine multiple python requirements files into a single one,
+`fuser` (for `FUSE-Requirements`) is a small CLI to fuse multiple python requirements files into a single one,
 detecting dependendy conflicts along the way.
 
 path to input/output requirements are read from the command line, requirements
-are combined and validated and an output file is written. if no `-o` `--output`
+are fused and validated and an output file is written. if no `-o` `--output`
 is provided, output is written to stdout.
 
 ## INSTALL
@@ -12,25 +12,25 @@ is provided, output is written to stdout.
 requires `python3.10` or more. no external libraries used, so no need to lose time setting up venvs.
 
 ```bash
-git clone git@github.com:paulhectork/combreq.git
+git clone git@github.com:paulhectork/fuser.git
 ```
 
 ## USAGE
 
-feed `combreq` pipe-separated paths to requirements files and see the magic in action !
+feed `fuser` pipe-separated paths to requirements files and see the magic in action !
 
 ```bash
 # a small example
-python3.10 combreq.py \
+python3.10 fuser.py \
     -i "./LinePred/requirements.txt|./DTLR/requirements.txt" \ 
     -o requirements.txt \
     -w
 ```
 
 ```
-usage: combine_requirements [-h] -i INPUT [-o OUTPUT] [-w]
+usage: fuse_requirements [-h] -i INPUT [-o OUTPUT] [-w]
 
-a small CLI to combine multiple python requirements files into a single one, detecting dependendy
+a small CLI to fuse multiple python requirements files into a single one, detecting dependendy
 conflicts along the way.
 
 options:
