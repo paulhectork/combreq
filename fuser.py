@@ -104,7 +104,7 @@ def fuser(
     >>> fuser(reqs_list)
     ... # returns
     ... {
-    ...     'wandb': [('', ''),
+    ...     'wandb': [('', '')],
     ...     'pytorch': [('>=', 2.2), ('<=', 3.0)],
     ...     'editdistance':  [('==', 3.2)]
     ... }
@@ -189,7 +189,7 @@ def to_string(reqs_obj: t.Dict[str, t.List[ t.Tuple[str, float] ]]) -> str:
 
     :example:
     >>> reqs_obj = {
-    ...     'wandb': [('', ''),
+    ...     'wandb': [('', '')],
     ...     'pytorch': [('>=', 2.2), ('<=', 3.0)],
     ...     'editdistance':  [('==', 3.2)]
     ... }
