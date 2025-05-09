@@ -11,6 +11,7 @@ is provided, output is written to stdout
 #TODO more file-grained check of `<=` vs `<` and `>=` vs `>`
 #TODO rework `rgx` for comma-separated version specs. i.e, "Pillow>2.0,3.0"
 #TODO handle recursive references to other requirements files
+#TODO add `-n` `--no_conflict_check` to turn off dependency conflict checking
 
 import os
 import re
