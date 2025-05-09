@@ -28,9 +28,9 @@ class DependencyConflictError(ValueError):
 class UnsupportedOperatorError(ValueError):
     pass
 
-root = os.path.dirname(os.path.realpath(__file__))
+CWD = os.getcwd()
 
-allowed_ops = ["<","<=","==",">=",">"]
+ALLOWED_OPS = ["<","<=","==",">=",">"]
 
 # in: Pillow<=10.0.0 => out: ("Pillow", "<=", "10.0.0")
 rgx = re.compile(r"([A-Za-z]+)([<>=]*)([\d\.]*)")
@@ -60,13 +60,22 @@ def init_cli():
     return parser
 
 
-def validate_arguments(inputs: t.List[str], output:str, overwrite:bool) -> None:
+def sanitize_arguments(inputs: t.List[str], output:str|None, overwrite:bool) -> t.Tuple[t.List[os.PathLike], os.PathLike|None]:
+    """
+    check for errors in useer input + replace user-inputted paths by absolute paths.
+    """
+    input_sanitized = []
     for _in in inputs:
-        if not os.path.isfile(_in):
-            raise FileNotFoundError(f"input file '{_in}' not found")
-    if output is not None and os.path.isfile(output) and not overwrite:
-        raise FileExistsError(f"output file '{output}' aldready exists. use -w --overwrite to bypass")
-    return
+        fp = os.path.join(CWD, _in)
+        if not os.path.isfile(fp):
+            raise FileNotFoundError(f"input file '{_in}' not found (absolute path: '{fp}')")
+        input_sanitized.append(fp)
+    output_sanitized = None
+    if output is not None:
+        output_sanitized = os.path.join(CWD, output)
+        if os.path.isfile(output_sanitized) and not overwrite:
+            raise FileExistsError(f"output file '{output}' aldready exists. use -w --overwrite to bypass. (absolute path: '{output_sanitized}')")
+    return input_sanitized, output_sanitized
 
 # -------------------------------------
 # pipeline
@@ -137,7 +146,7 @@ def fuser(
         elif len(versions) == 1:
             versions = versions  # useless but whatever
 
-        # there are several versions specifications for the same package. find a version specification that satistifes all individual specs. 
+        # there are several versions specifications for the same package. find a version specification that satistifes all individual specs.
         # this is done by computing, for each version spec, a range of [min, max] allowed versions, and then computing the intersection of all those ranges. if no valid intersection is found, there is a conflict
         else:
             # dict of { operator: [sorted list of versions for that operator] }
@@ -215,7 +224,7 @@ if __name__ == "__main__":
     overwrite = args.overwrite
 
     # will raise if arguments are invalid
-    validate_arguments(input_reqs_files, output, overwrite)
+    input_reqs_file, output = sanitize_arguments(input_reqs_files, output, overwrite)
 
     input_requirements = [ read_file(reqs_file) for reqs_file in input_reqs_files ]
     input_requirements = [ parse_requirements(reqs) for reqs in input_requirements ]
