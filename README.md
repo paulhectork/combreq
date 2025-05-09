@@ -12,12 +12,17 @@ is provided, output is written to stdout.
 requires `python3.10` or more. no external libraries used, so no need to lose time setting up venvs.
 
 ```bash
-git clone ...
+git clone git@github.com:paulhectork/combreq.git
 ```
 
 ## USAGE
 
 feed `combreq` pipe-separated paths to requirements files and see the magic in action !
+
+```bash
+# a small example
+python3.10 combine_requirements.py -i "./LinePred/requirements.txt|./DTLR/requirements.txt" -o requirements.txt
+```
 
 ```
 usage: combine_requirements [-h] -i INPUT [-o OUTPUT] [-w]
