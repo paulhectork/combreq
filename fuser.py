@@ -33,7 +33,7 @@ CWD = os.getcwd()
 ALLOWED_OPS = ["<","<=","==",">=",">"]
 
 # in: Pillow<=10.0.0 => out: ("Pillow", "<=", "10.0.0")
-rgx = re.compile(r"([A-Za-z]+)([<>=]*)([\d\.]*)")
+rgx = re.compile(r"([A-Za-z\-]+)([<>=]*)([\d\.]*)")
 
 dependency_conflict_error_msg = lambda pkg, versions: f"dependency conflict for package '{pkg}' with versions {versions}"
 
@@ -91,6 +91,7 @@ def parse_requirements(t:str) -> t.List[t.Tuple[str, str, str]]:
     reqs = []
     for r in t.split("\n"):
         if len(r) and not r.startswith("#"):
+            r = re.sub(r"#[^#]=$", "")
             if re.search(r"^(--|git\+)", r):
                 reqs.append(( r, "", "" ))
             else:
