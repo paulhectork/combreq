@@ -89,13 +89,13 @@ def parse_requirements(t:str) -> t.List[t.Tuple[str, str, str]]:
         ex: [('yapf', '==', '0.3.1'), ('timm', '', '')]
     """
     reqs = []
-    for r in t.split("\n"):
-        if len(r) and not r.startswith("#"):
-            r = re.sub(r"#[^#]=$", "")
-            if re.search(r"^(--|git\+)", r):
-                reqs.append(( r, "", "" ))
+    for line in t.split("\n"):
+        if len(line) and not line.startswith("#"):
+            line = re.sub(r"#[^#]=$", "", line)
+            if re.search(r"^(--|git\+)", line):
+                reqs.append(( line, "", "" ))
             else:
-                match = rgx.search(r)
+                match = rgx.search(line)
                 reqs.append(( match[1], match[2], match[3] ))
     return reqs
 
