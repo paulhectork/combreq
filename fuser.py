@@ -195,11 +195,9 @@ def to_string(reqs_obj: t.Dict[str, t.List[ t.Tuple[str, float] ]]) -> str:
     ... }
     >>> to_string(reqs_obj)
     ... # returns
-    ..."""
     ...wandb
     ...pytorch>=2.2,<=3.0
     ...editdistance==3.2
-    ..."""
     """
     return "\n".join(
         f"{pkg}{','.join(f'{op}{version}' for (op, version) in op_version)}"
